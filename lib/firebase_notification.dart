@@ -1,10 +1,13 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class FirebaseNotification {
   final _firebaseMessage = FirebaseMessaging.instance;
 
   Future<String?> getTokenFire() async {
-    return await _firebaseMessage.getToken();
+    final token = await _firebaseMessage.getToken();
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    sharedPreferences.setString("token", token!);
   }
 
   Future<void> requestNotifications() async {
